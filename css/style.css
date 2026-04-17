@@ -38,8 +38,8 @@
   --border-dk:   rgba(255,255,255,0.08);
 
   /* Typography */
-  --font-h: 'Syne', system-ui, sans-serif;
-  --font-b: 'DM Sans', system-ui, sans-serif;
+  --font-h: 'Manrope', system-ui, sans-serif;
+  --font-b: 'Manrope', system-ui, sans-serif;
 
   /* Easing */
   --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
@@ -991,12 +991,10 @@ button { background: none; border: none; cursor: pointer; font: inherit; }
   border-bottom: 1px solid var(--border-dk);
 }
 .footer-logo-img {
-  height: 40px;
+  height: 48px;
   width: auto;
   object-fit: contain;
   margin-bottom: 1rem;
-  filter: brightness(0) invert(1);
-  opacity: 0.85;
 }
 .footer-brand p {
   font-size: 0.875rem;
