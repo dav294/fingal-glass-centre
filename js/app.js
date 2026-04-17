@@ -86,17 +86,8 @@ heroTL
   .from('.hero-actions', { opacity: 0, y: 16, duration: 0.6, ease: 'power3.out' }, '-=0.5')
   .from('.hero-phones',  { opacity: 0, y: 16, duration: 0.6, ease: 'power3.out' }, '-=0.4');
 
-// Hero visual
-heroTL
-  .from('.glass-grid',        { opacity: 0, scale: 0.9, duration: 1, ease: 'power3.out' }, '-=0.9')
-  .from('.badge-years',        { opacity: 0, x: 30, y: -30, duration: 0.6, ease: 'back.out(1.5)' }, '-=0.4')
-  .from('.badge-gen',          { opacity: 0, x: -30, y: 30, duration: 0.6, ease: 'back.out(1.5)' }, '-=0.4');
-
-/* ── Glass pane shimmer ──────────────────────────────────────── */
-gsap.to('.glass-pane--1', { opacity: 0.6, duration: 2.5, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 0 });
-gsap.to('.glass-pane--2', { opacity: 0.5, duration: 3,   repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 0.8 });
-gsap.to('.glass-pane--3', { opacity: 0.6, duration: 2.8, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 1.4 });
-gsap.to('.glass-pane--4', { opacity: 0.5, duration: 3.2, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 0.4 });
+// Hero background subtle Ken Burns zoom
+heroTL.from('.hero-bg-img', { scale: 1.06, duration: 2.2, ease: 'power2.out' }, 0);
 
 /* ── Scroll Reveal Helper ─────────────────────────────────────── */
 function revealOnScroll(selector, props, options = {}) {

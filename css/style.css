@@ -279,32 +279,56 @@ button { background: none; border: none; cursor: pointer; font: inherit; }
 ══════════════════════════════════════════════════════════════ */
 .hero {
   min-height: 100svh;
-  background: var(--bg);
-  padding-top: 90px;
-  display: flex;
-  align-items: center;
   position: relative;
   overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -200px; right: -200px;
-  width: 700px; height: 700px;
-  background: radial-gradient(circle, var(--primary-pale) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero-inner {
-  width: 92%;
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  display: flex;
   align-items: center;
-  padding: 4rem 0;
 }
-.hero-content { z-index: 1; }
+.hero-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    rgba(14, 15, 42, 0.90) 0%,
+    rgba(14, 15, 42, 0.70) 50%,
+    rgba(14, 15, 42, 0.30) 100%
+  );
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  width: 92%;
+  max-width: 680px;
+  margin-left: max(4%, calc((100vw - 1200px) / 2));
+  padding: 8rem 0 5rem;
+}
+.hero-title {
+  color: #fff;
+}
+.ht-accent {
+  color: var(--secondary);
+}
+.phone-label { color: rgba(255,255,255,0.55); }
+.phone-num   { color: #fff; }
+.phone-divider { background: rgba(255,255,255,0.2); }
+.btn-ghost-light {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.45);
+}
+.btn-ghost-light:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.8);
+  transform: translateY(-2px);
+}
 .emergency-badge {
   display: inline-flex;
   align-items: center;
@@ -333,30 +357,18 @@ button { background: none; border: none; cursor: pointer; font: inherit; }
 }
 .hero-title {
   font-family: var(--font-h);
-  font-size: clamp(3.5rem, 7vw, 7rem);
+  font-size: clamp(3rem, 6.5vw, 6.5rem);
   font-weight: 800;
   line-height: 1.0;
   letter-spacing: -0.04em;
-  color: var(--text);
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   overflow: hidden;
 }
 .ht-line {
   display: block;
   overflow: hidden;
 }
-.ht-accent {
-  font-style: italic;
-  font-weight: 300;
-  color: var(--primary);
-}
-.hero-sub {
-  font-size: 1.05rem;
-  color: var(--text-mid);
-  max-width: 480px;
-  margin-bottom: 2rem;
-  line-height: 1.8;
-}
+/* .ht-accent and .hero-title color defined in hero block above */
 .hero-actions {
   display: flex;
   gap: 1rem;
@@ -380,18 +392,18 @@ button { background: none; border: none; cursor: pointer; font: inherit; }
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  /* colour set in hero block: rgba(255,255,255,0.55) */
 }
 .phone-num {
   font-family: var(--font-h);
   font-size: 1rem;
   font-weight: 700;
-  color: var(--text);
+  /* colour set in hero block: #fff */
 }
 .phone-divider {
   width: 1px;
   height: 36px;
-  background: var(--border);
+  /* background set in hero block: rgba(255,255,255,0.2) */
 }
 
 /* Hero photo */
@@ -406,96 +418,6 @@ button { background: none; border: none; cursor: pointer; font: inherit; }
   position: relative;
   z-index: 1;
 }
-/* hide the CSS glass grid and badges once photo is in place */
-.hero-photo ~ .glass-grid,
-.hero-photo ~ .hero-badge-float { display: none; }
-
-/* Hero visual (CSS glass panes) */
-.hero-visual {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.glass-grid {
-  width: 420px;
-  height: 420px;
-  max-width: 100%;
-  position: relative;
-  border: 3px solid var(--primary);
-  border-radius: 4px;
-  overflow: hidden;
-}
-.glass-cross--h {
-  position: absolute;
-  top: 50%; left: 0; right: 0;
-  height: 3px;
-  background: var(--primary);
-  transform: translateY(-50%);
-}
-.glass-cross--v {
-  position: absolute;
-  left: 50%; top: 0; bottom: 0;
-  width: 3px;
-  background: var(--primary);
-  transform: translateX(-50%);
-}
-.glass-pane {
-  position: absolute;
-  border-radius: 2px;
-  transition: opacity 0.3s;
-}
-.glass-pane--1 { top: 3px; left: 3px; right: calc(50% + 1.5px); bottom: calc(50% + 1.5px); background: linear-gradient(135deg, var(--primary-pale), rgba(68,76,231,0.06)); }
-.glass-pane--2 { top: 3px; left: calc(50% + 1.5px); right: 3px; bottom: calc(50% + 1.5px); background: linear-gradient(135deg, rgba(252,185,0,0.15), rgba(252,185,0,0.04)); }
-.glass-pane--3 { top: calc(50% + 1.5px); left: 3px; right: calc(50% + 1.5px); bottom: 3px; background: linear-gradient(135deg, rgba(68,76,231,0.08), var(--primary-pale)); }
-.glass-pane--4 { top: calc(50% + 1.5px); left: calc(50% + 1.5px); right: 3px; bottom: 3px; background: linear-gradient(135deg, rgba(252,185,0,0.08), rgba(68,76,231,0.06)); }
-/* inner bars */
-.glass-pane--5 {
-  top: 22%; left: 3px; right: calc(50% + 1.5px); height: 2px;
-  background: rgba(68,76,231,0.15);
-}
-.glass-pane--6 {
-  top: 22%; left: calc(50% + 1.5px); right: 3px; height: 2px;
-  background: rgba(68,76,231,0.15);
-}
-
-/* Float badges */
-.hero-badge-float {
-  position: absolute;
-  background: #fff;
-  border-radius: 12px;
-  padding: 1rem 1.2rem;
-  box-shadow: 0 8px 32px rgba(68,76,231,0.18), 0 2px 8px rgba(0,0,0,0.08);
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-family: var(--font-b);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text);
-  white-space: nowrap;
-  z-index: 2;
-}
-.badge-years {
-  top: -24px;
-  right: -24px;
-}
-.badge-num {
-  font-family: var(--font-h);
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: var(--primary);
-  line-height: 1;
-}
-.badge-num sup { font-size: 0.8rem; }
-.badge-label { font-size: 0.72rem; font-weight: 600; color: var(--text-mid); line-height: 1.4; }
-.badge-gen {
-  bottom: -24px;
-  left: -24px;
-  gap: 0.6rem;
-}
-.badge-icon { width: 20px; height: 20px; color: var(--primary); flex-shrink: 0; }
-.badge-icon svg { width: 20px; height: 20px; }
 
 /* ══════════════════════════════════════════════════════════════
    EMERGENCY STRIP
