@@ -101,21 +101,23 @@ gsap.to('.glass-pane--4', { opacity: 0.5, duration: 3.2, repeat: -1, yoyo: true,
 /* ── Scroll Reveal Helper ─────────────────────────────────────── */
 function revealOnScroll(selector, props, options = {}) {
   document.querySelectorAll(selector).forEach((el, i) => {
-    gsap.fromTo(el,
-      { opacity: 0, ...props.from },
-      {
-        opacity: 1,
-        ...props.to,
-        duration:  options.duration  || 0.85,
-        ease:      options.ease      || 'power3.out',
-        delay:     (options.stagger  || 0) * i,
-        scrollTrigger: {
-          trigger:  el,
-          start:    options.start || 'top 88%',
-          toggleActions: 'play none none none',
-        },
-      }
-    );
+    // Set initial hidden state via JS (not CSS) so content stays visible if JS fails
+    gsap.set(el, { opacity: 0, ...props.from });
+
+    ScrollTrigger.create({
+      trigger:  el,
+      start:    options.start || 'top 88%',
+      once:     true,
+      onEnter:  () => {
+        gsap.to(el, {
+          opacity: 1,
+          ...props.to,
+          duration: options.duration || 0.85,
+          ease:     options.ease     || 'power3.out',
+          delay:    (options.stagger || 0) * i,
+        });
+      },
+    });
   });
 }
 
@@ -155,22 +157,21 @@ revealOnScroll('[data-reveal="bottom"]',
 document.querySelectorAll('.counter').forEach(counter => {
   const target   = parseFloat(counter.dataset.target);
   const decimals = parseInt(counter.dataset.decimals || 0);
+  const obj      = { val: 0 };
 
   ScrollTrigger.create({
     trigger: counter,
     start: 'top 85%',
     once: true,
     onEnter: () => {
-      gsap.fromTo(
-        { val: 0 },
-        { val: target,
-          duration: 1.8,
-          ease: 'power2.out',
-          onUpdate: function () {
-            counter.textContent = this.targets()[0].val.toFixed(decimals);
-          }
-        }
-      );
+      gsap.to(obj, {
+        val: target,
+        duration: 1.8,
+        ease: 'power2.out',
+        onUpdate: () => {
+          counter.textContent = obj.val.toFixed(decimals);
+        },
+      });
     },
   });
 });
@@ -204,3 +205,9 @@ if (areaTags.length) {
     },
   });
 }
+
+/* ── Refresh ScrollTrigger after full page load ───────────────── */
+// Ensures correct trigger positions after fonts, images and Lenis are ready
+window.addEventListener('load', () => {
+  ScrollTrigger.refresh();
+});
